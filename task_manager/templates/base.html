@@ -1,0 +1,26 @@
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>{% block title %}{% translate "Менеджер задач" %}{% endblock %}</title>
+</head>
+<body>
+    <ul>
+        <li><a href="{% url 'index' %}">{% translate "Sign in" %}</a></li>
+        <li><a href="{% url 'index' %}">{% translate "Sign up" %}</a></li>
+        <li><a href="{% url 'index' %}">{% translate "Users" %}</a></li>
+    </ul>
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
