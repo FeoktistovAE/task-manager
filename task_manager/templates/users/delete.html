@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block title %}Удаление пользователя{% endblock %}
+
+{% block content %}
+
+<div>
+    <h1>Удаление пользователя</h1>
+    <h1>Вы уверены, что хотите удалить {{ full_name }}?</h1>
+</div>
+<form action="{% url 'users_destroy' pk=user_id %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_button "Delete user" button_type="submit" button_class="btn-primary" %}
+</form>
+{% endblock %}

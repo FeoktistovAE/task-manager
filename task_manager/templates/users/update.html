@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+
+{% block content %}
+<form action="{% url 'users_edit' pk=user_id %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">
+    Update
+    </button>
+    {% endbuttons %}
+</form>
+{% endblock %}

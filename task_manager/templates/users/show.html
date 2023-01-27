@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    {% bootstrap_messages %}
+    <h1 class="my-4">{% translate "Users" %}</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% translate "ID" %}</th>
+                <th>{% translate "Login" %}</th>
+                <th>{% translate "Full name" %}</th>
+                <th>{% translate "Date joined" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.get_full_name }}</td>
+                <td>{{ user.date_joined }}</td>
+                <td>
+                    <a href="{% url 'users_edit' pk=user.id %}">{% translate "Edit" %}</a>
+                    <br>
+                    <a href="{% url 'users_destroy' pk=user.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
