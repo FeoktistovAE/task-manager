@@ -4,8 +4,10 @@ from task_manager.users.models import Users
 from task_manager.users.forms import UsersForm, UsersLoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-
-
+from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 class UsersView(View):
@@ -67,23 +69,28 @@ class UsersFormDeleteView(View):
         return redirect('index')
 
 
-class UsersFormLoginView(View):
-    def get(self, request, *args, **kwargs):
-        form = UsersLoginForm
-        return render(request, 'users/login.html', {'form': form})
+# class UsersFormLoginView(View):
+#     def get(self, request, *args, **kwargs):
+#         form = UsersLoginForm
+#         return render(request, 'users/login.html', {'form': form})
     
-    def post(self, request, *args, ** kwargs):
-        username = request.POST['username']
-        password = request.POST['password']
-        form = UsersLoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request, username=cd['username'], password=cd['password'])
-            print(user)
-            if user is not None:
-                login(request, user)
-                messages.add_message(request, messages.SUCCESS, 'You are logged in')
-                return redirect('index')
+#     def post(self, request, *args, ** kwargs):
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         form = UsersLoginForm(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             user = authenticate(request, username=cd['username'], password=cd['password'])
+#             print(user)
+#             if user is not None:
+#                 login(request, user)
+#                 messages.add_message(request, messages.SUCCESS, 'You are logged in')
+#                 return redirect('index')
         
-        messages.add_message(request, messages.ERROR, 'Somethong went wrong')
-        return render(request, 'users/login.html', {'form': form})
+#         messages.add_message(request, messages.ERROR, 'Somethong went wrong')
+#         return render(request, 'users/login.html', {'form': form})
+
+
+class UsersFormLoginView(LoginView):
+    template_name = 'users/login.html'
+    form_class = UsersLoginForm

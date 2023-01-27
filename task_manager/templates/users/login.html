@@ -20,13 +20,11 @@
 {% endif %}
 
 <form method="post" action="{% url 'users_login' %}">
-{% csrf_token %}
-{% bootstrap_form form %}
-{% buttons %}
-<button type="submit" class="btn btn-primary">
-  Submit
-</button>
-{% endbuttons %}
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">
+     Log in
+    </button>
 </form>
 
-{% endblock %}
+{% endblock content %}
