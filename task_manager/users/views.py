@@ -8,6 +8,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic.edit import CreateView
+
 
 # Create your views here.
 class UsersView(View):
@@ -16,20 +18,26 @@ class UsersView(View):
         return render(request, 'users/show.html', {'users': users})
 
 
-class UsersFormCreateView(View):
-    def get(self, request, *args, **kwargs):
-        form = UsersForm
-        return render(request, 'users/create.html', {'form': form})
+# class UsersFormCreateView(View):
+#     def get(self, request, *args, **kwargs):
+#         form = UsersForm
+#         return render(request, 'users/create.html', {'form': form})
     
-    def post(self, request, *args, **kwargs):
-        form = UsersForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'User succesfully created')
-            return redirect('index')
-        messages.add_message(request, messages.ERROR, "Something went wrong")
-        return render(request, 'users/create.html', {'form': form})
+#     def post(self, request, *args, **kwargs):
+#         form = UsersForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.add_message(request, messages.SUCCESS, 'User succesfully created')
+#             return redirect('index')
+#         messages.add_message(request, messages.ERROR, "Something went wrong")
+#         return render(request, 'users/create.html', {'form': form})
 
+
+class UsersFormCreateView(CreateView):
+    model = Users
+    form_class = UsersForm
+    template_name = 'users/create.html'
+    success_url = reverse_lazy('index')
 
 class UsersFormEditView(View):
     def get(self, request, *args, **kwargs):
@@ -71,16 +79,16 @@ class UsersFormDeleteView(View):
 
 # class UsersFormLoginView(View):
 #     def get(self, request, *args, **kwargs):
-#         form = UsersLoginForm
+#         form = AuthenticationForm
 #         return render(request, 'users/login.html', {'form': form})
     
 #     def post(self, request, *args, ** kwargs):
 #         username = request.POST['username']
 #         password = request.POST['password']
-#         form = UsersLoginForm(request.POST)
+#         form = AuthenticationForm(request.POST)
 #         if form.is_valid():
 #             cd = form.cleaned_data
-#             user = authenticate(request, username=cd['username'], password=cd['password'])
+#             user = authenticate(request, username=username, password=password)
 #             print(user)
 #             if user is not None:
 #                 login(request, user)

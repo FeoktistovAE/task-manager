@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import dj_database_url
+from django.urls import reverse_lazy
 
 
 load_dotenv()
@@ -119,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTH_USER_MODEL = 'users.Users'
+
+LOGIN_REDIRECT_URL = reverse_lazy('index')
 
 
 # Internationalization
