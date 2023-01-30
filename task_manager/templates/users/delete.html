@@ -12,12 +12,10 @@
 
 {% block content %}
 
-<div>
-    <h1>Удаление пользователя</h1>
-    <h1>Вы уверены, что хотите удалить {{ full_name }}?</h1>
-</div>
+    <h1 class="my-4">Delete user</h1>
+    <p>Are you shure you want to delete user {{ full_name }}?</p>
 <form action="{% url 'users_destroy' pk=user_id %}" method="post">
     {% csrf_token %}
-    {% bootstrap_button "Delete user" button_type="submit" button_class="btn-primary" %}
+    <input class="btn btn-danger" type="submit" value="Yes, i am">
 </form>
 {% endblock %}

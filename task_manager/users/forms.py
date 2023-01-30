@@ -1,12 +1,12 @@
 from django.forms import ModelForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from task_manager.users.models import Users
 
 
-class UsersForm(ModelForm):
+class UsersForm(UserCreationForm):
     class Meta:
         model = Users
-        fields = ['first_name', 'last_name', 'username', 'password']
+        fields = ['first_name', 'last_name', 'username']
 
 
 class UsersLoginForm(AuthenticationForm):

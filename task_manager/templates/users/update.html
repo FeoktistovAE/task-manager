@@ -11,13 +11,9 @@
 
 
 {% block content %}
-<form action="{% url 'users_edit' pk=user_id %}" method="post">
+<form method = "post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% buttons %}
-    <button type="submit" class="btn btn-primary">
-    Update
-    </button>
-    {% endbuttons %}
+    <input class="btn btn-primary" type="submit" value="Update" >
 </form>
 {% endblock %}
