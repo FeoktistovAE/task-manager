@@ -22,16 +22,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for user in object_list %}
+            {% for u in object_list %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.get_full_name }}</td>
-                <td>{{ user.date_joined }}</td>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.get_full_name }}</td>
+                <td>{{ u.date_joined }}</td>
                 <td>
+                    {% if u == user %}
                     <a href="{% url 'users_edit' pk=user.id %}">{% translate "Edit" %}</a>
                     <br>
                     <a href="{% url 'users_destroy' pk=user.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                    {% endif %}
                 </td>
 
             </tr>
