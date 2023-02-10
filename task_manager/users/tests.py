@@ -71,11 +71,21 @@ class UsersTestCase(TestCase):
         self.assertRedirects(response, reverse('users_show'))
 
     def test_delete_user(self):
-        response = self.client.get(reverse('users_destroy', kwargs={'pk': 1}))
+        u = Users.objects.last()
+
+        response = self.client.get(reverse('users_destroy', kwargs={'pk': u.id}))
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(reverse('users_destroy', kwargs={'pk': u.id}))
+        self.assertEqual(response.status_code, 403)
+
+        self.client.force_login(u)
+
+        response = self.client.get(reverse('users_destroy', kwargs={'pk': u.id}))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(reverse('users_destroy', kwargs={'pk': 2}))
-        self.assertEqual(response.status_code, 403)
+        response = self.client.post(reverse('users_destroy', kwargs={'pk': u.id}))
+        self.assertEqual(response.status_code, 302)
 
     def test_login(self):
         get_response = self.client.get('/login/')

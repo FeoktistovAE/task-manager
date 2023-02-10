@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block content %}
+    <h1 class="my-4">{% translate "Statuses" %}</h1>
+    <a href="{% url 'status_create' %}">{% translate "Create status" %}</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% translate "ID" %}</th>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Date created" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for status in object_list %}
+            <tr>
+                <td>{{ status.id }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.timestamp }}</td>
+                <td>
+                    <a href="{% url 'status_edit' pk=status.id %}">{% translate "Edit" %}</a>
+                    <br>
+                    <a href="{% url 'status_destroy' pk=status.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

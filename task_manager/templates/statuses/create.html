@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<form action="{% url 'status_create' %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">
+      Create
+    </button>
+</form>
+{% endblock %}
