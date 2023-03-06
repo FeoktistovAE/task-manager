@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block title %}{% translate "Show a status" %}{% endblock %}
+
+{% block content %}
+<h1 class="my-4">{% translate "Task view" %}</h1>
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        <h2>{{ object.name }}</h2>
+    </div>
+    <div class="card-body bg-light">
+        <p>{{ object.description }}</p>
+        <hr>
+        <div class="container">
+            <div class="row p-1">
+                <div class="col">{% translate "Author" %}</div>
+                <div class="col">{{ object.author }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate "Executor" %}</div>
+                <div class="col">{{ object.executor }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate "Status" %}</div>
+                <div class="col">{{ object.status }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate "Date created" %}</div>
+                <div class="col">{{ object.timestamp }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">
+                    <a href="{% url 'task_edit' pk=object.id %}">{% translate "Edit" %}</a>
+                    <br>
+                    <a href="{% url 'task_destroy' pk=object.id %}">{% translate "Delete" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

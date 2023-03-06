@@ -16,17 +16,18 @@
         <a class="navbar-brand" href="{% url 'index' %}">{% translate "Task manager" %}</a>
         <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'users_show' %}">{% translate "Users" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'users_index' %}">{% translate "Users" %}</a></li>
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'statuses_show' %}">{% translate "Statuses" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'statuses_index' %}">{% translate "Statuses" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tasks_index' %}">{% translate "Tasks" %}</a></li>
                 {% endif %}
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'users_logout' %}">{% translate "Log out" %}</a></li></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_logout' %}">{% translate "Log out" %}</a></li></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'users_create' %}">{% translate "Sign up" %}</a></li></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'users_login' %}">{% translate "Log in" %}</a></li></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_create' %}">{% translate "Sign up" %}</a></li></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_login' %}">{% translate "Log in" %}</a></li></li>
                 {% endif %}
 
             </ul>

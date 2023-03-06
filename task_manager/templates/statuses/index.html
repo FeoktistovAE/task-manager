@@ -9,6 +9,8 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
+{% block title %}{% translate "Status list" %}{% endblock %}
+
 {% block content %}
     <h1 class="my-4">{% translate "Statuses" %}</h1>
     <a href="{% url 'status_create' %}">{% translate "Create status" %}</a>
@@ -37,5 +39,4 @@
             {% endfor %}
         </tbody>
     </table>
-</div>
 {% endblock %}

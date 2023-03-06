@@ -11,24 +11,24 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
-class UsersView(ListView):
+class UsersIndexView(ListView):
     model = Users
-    template_name = 'users/show.html'
+    template_name = 'users/index.html'
 
 
-class UsersCreateView(SuccessMessageMixin, CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     model = Users
     form_class = UsersForm
     template_name = 'users/create.html'
-    success_url = reverse_lazy('users_login')
+    success_url = reverse_lazy('user_login')
     success_message = 'User has created'
 
 
-class UsersUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = Users
     form_class = UsersForm
     template_name = 'users/update.html'
-    success_url = reverse_lazy('users_show')
+    success_url = reverse_lazy('users_index')
     success_message = 'User succesfully updated'
 
     def test_func(self):
@@ -36,12 +36,12 @@ class UsersUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMix
         return self.request.user.username == obj.username
 
     def handle_no_permission(self):
-        return redirect(reverse_lazy('users_show'))
+        return redirect(reverse_lazy('users_index'))
 
 
-class UsersDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, DeleteView):
+class UserDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     model = Users
-    success_url = reverse_lazy('users_show')
+    success_url = reverse_lazy('users_index')
     success_message = 'User successfully deleted'
     template_name = 'users/delete.html'
 
@@ -49,12 +49,15 @@ class UsersDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMix
         obj = self.get_object()
         return self.request.user.username == obj.username
 
+    def handle_no_permission(self):
+        return redirect(reverse_lazy('users_index'))
 
-class UsersLoginView(SuccessMessageMixin, LoginView):
+
+class UserLoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UsersLoginForm
     success_message = 'You are logged in'
-    next_page = reverse_lazy('users_show')
+    next_page = reverse_lazy('users_index')
 
 
 def logout_view(request):

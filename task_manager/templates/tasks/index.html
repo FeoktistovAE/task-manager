@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block content %}
+    <h1 class="my-4">{% translate "Statuses" %}</h1>
+    <a href="{% url 'task_create' %}">{% translate "Create task" %}</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% translate "ID" %}</th>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Status" %}</th>
+                <th>{% translate "Author" %}</th>
+                <th>{% translate "Executor" %}</th>
+                <th>{% translate "Date created" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in object_list %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td><a href="{% url 'task_detail' pk=task.id %}">{{ task.name }}</a></td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.author }}</td>
+                <td>{{ task.executor }}</td>
+                <td>{{ task.timestamp }}</td>
+                <td>
+                    <a href="{% url 'task_edit' pk=task.id %}">{% translate "Edit" %}</a>
+                    <br>
+                    <a href="{% url 'task_destroy' pk=task.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

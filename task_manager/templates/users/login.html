@@ -19,7 +19,7 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'users_login' %}">
+<form method="post" action="{% url 'user_login' %}">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-primary">

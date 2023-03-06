@@ -8,12 +8,21 @@ class UsersTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         Users.objects.create_user(username='username', password='password')
-        self.client.login(username='username', password='password')
-        Users.objects.create(username='username1', password='user_password1', first_name='first_name1', last_name='last_name1')
-        Users.objects.create(username='username2', password='user_password2', first_name='first_name2', last_name='last_name2')
+        Users.objects.create(
+            username='username1',
+            password='user_password1',
+            first_name='first_name1',
+            last_name='last_name1'
+        )
+        Users.objects.create(
+            username='username2',
+            password='user_password2',
+            first_name='first_name2',
+            last_name='last_name2'
+        )
 
     def test_users_view(self):
-        response = self.client.get(reverse('users_show'))
+        response = self.client.get(reverse('users_index'))
         self.assertEqual(len(response.context['object_list']), 3)
 
     def test_create_user(self):
@@ -21,7 +30,7 @@ class UsersTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            reverse('users_create'),
+            reverse('user_create'),
             {
                 'username': 'create_username',
                 'first_name': 'create_first_name',
@@ -33,58 +42,50 @@ class UsersTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_update_user(self):
-        u = Users.objects.last()
+        test_user = Users.objects.last()
 
-        response = self.client.get(reverse('users_edit', kwargs={'pk': u.id}))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('users_show'))
+        response = self.client.get(reverse('user_edit', kwargs={'pk': test_user.id}))
+        self.assertRedirects(response, reverse('users_index'))
 
         response = self.client.post(
-            reverse('users_edit', kwargs={'pk': u.id}),
-            {
-                'username': 'user_updated',
-                'first_name': 'user_update_first_name',
-                'last_name': 'user_update_last_name',
-                'password1': '123qwe!@#',
-                'password2': '123qwe!@#',
-            }
+            reverse('user_edit', kwargs={'pk': test_user.id})
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('users_show'))
+        self.assertRedirects(response, reverse('users_index'))
 
-        self.client.force_login(u)
+        self.client.force_login(test_user)
 
-        response = self.client.get(reverse('users_edit', kwargs={'pk': u.id}))
+        response = self.client.get(reverse('user_edit', kwargs={'pk': test_user.id}))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            reverse('users_edit', kwargs={'pk': u.id}),
+            reverse('user_edit', kwargs={'pk': test_user.id}),
             {
                 'username': 'user_updated',
-                'first_name': 'user_update_first_name',
-                'last_name': 'user_update_last_name',
-                'password1': '123qwe!@#',
-                'password2': '123qwe!@#',
+                'first_name': 'updated_firstname',
+                'last_name': 'updated_lastname',
+                'password1': 'Qwerty123!',
+                'password2': 'Qwerty123!',
             }
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('users_show'))
+
+        test_user.refresh_from_db()
+        self.assertEqual(test_user.username, 'user_updated')
+        self.assertEqual(test_user.first_name, 'updated_firstname')
+        self.assertEqual(test_user.last_name, 'updated_lastname')
+        self.assertRedirects(response, reverse('users_index'))
 
     def test_delete_user(self):
-        u = Users.objects.last()
+        test_user = Users.objects.last()
 
-        response = self.client.get(reverse('users_destroy', kwargs={'pk': u.id}))
-        self.assertEqual(response.status_code, 403)
+        response = self.client.post(reverse('user_destroy', kwargs={'pk': test_user.id}))
+        self.assertRedirects(response, reverse('users_index'))
 
-        response = self.client.post(reverse('users_destroy', kwargs={'pk': u.id}))
-        self.assertEqual(response.status_code, 403)
+        self.client.force_login(test_user)
 
-        self.client.force_login(u)
-
-        response = self.client.get(reverse('users_destroy', kwargs={'pk': u.id}))
+        response = self.client.get(reverse('user_destroy', kwargs={'pk': test_user.id}))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post(reverse('users_destroy', kwargs={'pk': u.id}))
+        response = self.client.post(reverse('user_destroy', kwargs={'pk': test_user.id}))
         self.assertEqual(response.status_code, 302)
 
     def test_login(self):

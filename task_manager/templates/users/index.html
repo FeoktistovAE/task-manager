@@ -30,9 +30,9 @@
                 <td>{{ u.date_joined }}</td>
                 <td>
                     {% if u == user %}
-                    <a href="{% url 'users_edit' pk=user.id %}">{% translate "Edit" %}</a>
+                    <a href="{% url 'user_edit' pk=user.id %}">{% translate "Edit" %}</a>
                     <br>
-                    <a href="{% url 'users_destroy' pk=user.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                    <a href="{% url 'user_destroy' pk=user.id %}" rel="nofollow">{% translate "Delete" %}</a>
                     {% endif %}
                 </td>
 
