@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import models
 
 
 class UsersIndexView(ListView):
@@ -44,6 +45,15 @@ class UserDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixi
     success_url = reverse_lazy('users_index')
     success_message = 'User successfully deleted'
     template_name = 'users/delete.html'
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.delete(request, *args, **kwargs)
+            messages.success(self.request, 'User successfully deleted')
+            return redirect(reverse_lazy('users_index'))
+        except models.ProtectedError:
+            messages.error(self.request, "Unable to delete user. He's in use")
+            return redirect(reverse_lazy('users_index'))
 
     def test_func(self):
         obj = self.get_object()

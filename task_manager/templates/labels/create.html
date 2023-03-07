@@ -8,11 +8,11 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
-{% block title %}{% translate "Create a status" %}{% endblock %}
+{% block title %}{% translate "Create a label" %}{% endblock %}
 
 {% block content %}
-<h1 class="my-4">{% translate "Create a status" %}</h1>
-<form action="{% url 'status_create' %}" method="post">
+<h1 class="my-4">{% translate "Create a label" %}</h1>
+<form action="{% url 'label_create' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-primary">

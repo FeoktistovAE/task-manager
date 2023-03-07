@@ -11,6 +11,7 @@
 {% block title %}{% translate "Create a status" %}{% endblock %}
 
 {% block content %}
+<h1 class="my-4">{% translate "Create a task" %}</h1>
 <form action="{% url 'task_create' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}

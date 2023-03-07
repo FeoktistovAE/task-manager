@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.db import models
 
 
 class StatusesIndexView(LoginRequiredMixin, ListView):
@@ -46,7 +47,15 @@ class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Statuses
     template_name = 'statuses/delete.html'
     success_url = reverse_lazy('statuses_index')
-    success_message = 'Status successfully deleted'
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.delete(request, *args, **kwargs)
+            messages.success(self.request, 'Status successfully deleted')
+            return redirect(reverse_lazy('statuses_index'))
+        except models.ProtectedError:
+            messages.error(self.request, "Unable to delete status. It's in use")
+            return redirect(reverse_lazy('statuses_index'))
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')

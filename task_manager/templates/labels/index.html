@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{# load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load i18n %}
+
+{% block title %}{% translate "Label list" %}{% endblock %}
+
+{% block content %}
+    <h1 class="my-4">{% translate "Labels" %}</h1>
+    <a href="{% url 'label_create' %}">{% translate "Create label" %}</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% translate "ID" %}</th>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Date created" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for label in object_list %}
+            <tr>
+                <td>{{ label.id }}</td>
+                <td>{{ label.name }}</td>
+                <td>{{ label.timestamp }}</td>
+                <td>
+                    <a href="{% url 'label_edit' pk=label.id %}">{% translate "Edit" %}</a>
+                    <br>
+                    <a href="{% url 'label_destroy' pk=label.id %}" rel="nofollow">{% translate "Delete" %}</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

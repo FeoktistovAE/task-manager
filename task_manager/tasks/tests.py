@@ -2,8 +2,9 @@ from django.test import TestCase
 from django.test import Client
 from task_manager.tasks.models import Tasks
 from task_manager.users.models import Users
-from task_manager.statuses.models import Statuses
 from django.urls import reverse
+
+from task_manager.statuses.models import Statuses
 
 
 class TasksTestCase(TestCase):

@@ -11,9 +11,8 @@
 {% block title %}{% translate "Delete the status" %}{% endblock %}
 
 {% block content %}
-
-    <h1 class="my-4">{% translate "Delete the status" %}</h1>
-    <p>Are you shure you want to delete status {{ name }}?</p>
+<h1 class="my-4">{% translate "Delete the status" %}</h1>
+<p>Are you shure you want to delete status {{ name }}?</p>
 <form method="post">
     {% csrf_token %}
     <input class="btn btn-danger" type="submit" value="Yes, i am">
