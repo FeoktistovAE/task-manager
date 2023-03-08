@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django_filters.views import FilterView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -10,7 +11,7 @@ from task_manager.tasks.models import Tasks
 from task_manager.tasks.forms import TaskForm
 
 
-class TasksIndexView(LoginRequiredMixin, ListView):
+class TasksIndexView(LoginRequiredMixin, FilterView):
     model = Tasks
     template_name = 'tasks/index.html'
 

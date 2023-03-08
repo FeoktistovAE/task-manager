@@ -12,6 +12,14 @@
 {% block content %}
     <h1 class="my-4">{% translate "Statuses" %}</h1>
     <a href="{% url 'task_create' %}">{% translate "Create task" %}</a>
+    <div class="card mb-3">
+        <div class="card-body bg-light">
+            <form class="form-inline center" method="get">
+                {{ filter.form.as_p }}
+                <input class="btn btn-primary" type="Submit" value="{% translate 'Show' %}" />
+            </form>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>

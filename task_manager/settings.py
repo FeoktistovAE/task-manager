@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [
     'python-project-52-production-20b1.up.railway.app',
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://python-project-52-production-20b1.up.railway.app']
 
 # Application definition
 
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'task_manager.statuses',
     'task_manager.tasks',
     'task_manager.labels',
+    'django_filters',
     'bootstrap4',
 ]
 
