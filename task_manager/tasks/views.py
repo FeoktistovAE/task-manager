@@ -9,11 +9,13 @@ from django.urls import reverse_lazy
 
 from task_manager.tasks.models import Tasks
 from task_manager.tasks.forms import TaskForm
+from task_manager.tasks.filter import TaskFilter
 
 
 class TasksIndexView(LoginRequiredMixin, FilterView):
     model = Tasks
     template_name = 'tasks/index.html'
+    filterset_class = TaskFilter
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')

@@ -15,7 +15,10 @@
     <div class="card mb-3">
         <div class="card-body bg-light">
             <form class="form-inline center" method="get">
-                {{ filter.form.as_p }}
+                {% bootstrap_field filter.form.status field_class='ml-2 mr-3' %}
+                {% bootstrap_field filter.form.executor field_class='ml-2 mr-3' %}
+                {% bootstrap_field filter.form.labels field_class='ml-2 mr-3' %}
+                {% bootstrap_field filter.form.client_tasks field_class='ml-2 mr-3' %}
                 <input class="btn btn-primary" type="Submit" value="{% translate 'Show' %}" />
             </form>
         </div>
