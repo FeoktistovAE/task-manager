@@ -1,7 +1,7 @@
 install:
 	poetry install
 lint:
-	poetry run flake8 task_manager tests
+	poetry run flake8 task_manager
 run:
 	python3 manage.py runserver
 mig:
@@ -11,6 +11,6 @@ migrate:
 console:
 	python3 manage.py shell
 test-coverage:
-	poetry run pytest --cov=page_loader --cov-report xml
+	poetry run pytest --cov=task_manager --cov-report xml
 test:
 	python3 manage.py test

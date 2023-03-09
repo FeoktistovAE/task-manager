@@ -6,14 +6,15 @@ from django import forms
 
 class TaskFilter(django_filters.FilterSet):
     labels = django_filters.ModelChoiceFilter(
-        queryset = Labels.objects.all(),
-        label = 'Label'
+        queryset=Labels.objects.all(),
+        label='Label'
     )
     client_tasks = django_filters.BooleanFilter(
         method='get_client_task',
         widget=forms.CheckboxInput,
         label='Only your own tasks'
     )
+
     def get_client_task(self, queryset, name, value):
         if value:
             user = self.request.user
