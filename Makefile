@@ -4,7 +4,7 @@ lint:
 	poetry run flake8 task_manager
 run:
 	python3 manage.py runserver
-mig:
+migrations:
 	python3 manage.py makemigrations
 migrate:
 	python3 manage.py migrate

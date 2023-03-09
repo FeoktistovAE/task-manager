@@ -23,5 +23,22 @@ Install dependencies via Poetry:
 ```bash
 make install
 ```
-
-
+Create '.env' file in the root directory:
+```bash
+touch .env
+```
+Add SECRET_KEY variable to the newly created file:
+```bash
+SECRET_KEY = 'generated secret key'
+```
+Make migrations:
+```bash
+make migrations
+```
+```bash
+make migrate
+```
+Run project:
+```bash
+make run
+```
