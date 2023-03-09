@@ -38,7 +38,7 @@ make migrations
 ```bash
 make migrate
 ```
-Run project:
+Run server:
 ```bash
 make run
 ```
