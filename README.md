@@ -4,7 +4,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4d4da041b1c6b8d9c2ba/test_coverage)](https://codeclimate.com/github/FeoktistovAE/python-project-52/test_coverage)
 
 #### Description:
-    ["Task Manager"](python-project-52-production-20b1.up.railway.app) is a task management system.
+    **["Task Manager"](python-project-52-production-20b1.up.railway.app)** is a task management system.
     It allows you to set tasks, assign performers and change their statuses.
     Registration and authentication are required to work with system.
 
