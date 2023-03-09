@@ -13,4 +13,4 @@ console:
 test-coverage:
 	poetry run pytest --cov=task_manager --cov-report xml
 test:
-	python3 manage.py test
+	poetry run python3 manage.py test
