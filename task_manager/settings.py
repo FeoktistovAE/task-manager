@@ -136,7 +136,12 @@ AUTH_USER_MODEL = 'users.Users'
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
+
+LANGUAGES = (
+    ("en", "English"),
+    ("ru", "Russian"),
+)
 
 TIME_ZONE = 'UTC'
 

@@ -3,32 +3,39 @@
 <head>
     {# load the tag library #}
     {% load bootstrap4 %}
-
-    {# Load CSS and JavaScript #}
+    {% load i18n %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
-    {% load i18n %}
-    <link rel="stylesheet" href="style.css">
-    <title>{% block title %}{% translate "Менеджер задач" %}{% endblock %}</title>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}{% translate "Task Manager" %}{% endblock %}</title>
 </head>
 <body class="d-flex flex-column min-vh-100 vsc-initialized"> 
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <a class="navbar-brand" href="{% url 'index' %}">{% translate "Task manager" %}</a>
         <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'users_index' %}">{% translate "Users" %}</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_index' %}">{% translate "Users" %}</a>
+                </li>
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'statuses_index' %}">{% translate "Statuses" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'labels_index' %}">{% translate "Labels" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'tasks_index' %}">{% translate "Tasks" %}</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'statuses_index' %}">{% translate "Statuses" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'labels_index' %}">{% translate "Labels" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tasks_index' %}">{% translate "Tasks" %}</a>
+                </li>
                 {% endif %}
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'user_logout' %}">{% translate "Log out" %}</a></li></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_logout' %}">{% translate "Logout" %}</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'user_create' %}">{% translate "Sign up" %}</a></li></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'user_login' %}">{% translate "Log in" %}</a></li></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_login' %}">{% translate "Enter" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_create' %}">{% translate "Register" %}</a></li>
                 {% endif %}
 
             </ul>

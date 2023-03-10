@@ -3,11 +3,11 @@
 
 {# load the tag library #}
 {% load bootstrap4 %}
-
+{% load i18n %}
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
-{% load i18n %}
+
 
 {% block content %}
     <h1 class="my-4">{% translate "Statuses" %}</h1>

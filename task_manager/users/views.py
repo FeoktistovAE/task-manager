@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class UsersIndexView(ListView):
@@ -22,7 +23,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UsersForm
     template_name = 'users/create.html'
     success_url = reverse_lazy('user_login')
-    success_message = 'User has created'
+    success_message = _('User has created')
 
 
 class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, UpdateView):
@@ -30,7 +31,7 @@ class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixi
     form_class = UsersForm
     template_name = 'users/update.html'
     success_url = reverse_lazy('users_index')
-    success_message = 'User succesfully updated'
+    success_message = _('User succesfully updated')
 
     def test_func(self):
         obj = self.get_object()
@@ -43,16 +44,16 @@ class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixi
 class UserDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     model = Users
     success_url = reverse_lazy('users_index')
-    success_message = 'User successfully deleted'
+    success_message = _('User successfully deleted')
     template_name = 'users/delete.html'
 
     def post(self, request, *args, **kwargs):
         try:
             self.delete(request, *args, **kwargs)
-            messages.success(self.request, 'User successfully deleted')
+            messages.success(self.request, _('User successfully deleted'))
             return redirect(reverse_lazy('users_index'))
         except models.ProtectedError:
-            messages.error(self.request, "Unable to delete user. He's in use")
+            messages.error(self.request, _("Unable to delete user. He's in use"))
             return redirect(reverse_lazy('users_index'))
 
     def test_func(self):
@@ -66,11 +67,11 @@ class UserDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixi
 class UserLoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UsersLoginForm
-    success_message = 'You are logged in'
+    success_message = _('You are logged in')
     next_page = reverse_lazy('users_index')
 
 
 def logout_view(request):
     logout(request)
-    messages.add_message(request, messages.SUCCESS, 'You are logged out')
+    messages.add_message(request, messages.SUCCESS, _('You are logged out'))
     return redirect('index')
