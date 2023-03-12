@@ -13,7 +13,8 @@ class Tasks(models.Model):
         verbose_name=_('Name')
     )
     description = models.TextField(
-        verbose_name=_('Description')
+        verbose_name=_('Description'),
+        blank=True
     )
     author = models.ForeignKey(
         Users,
@@ -33,6 +34,7 @@ class Tasks(models.Model):
     executor = models.ForeignKey(
         Users,
         related_name='executor',
+        blank=True,
         null=True,
         on_delete=models.PROTECT,
         verbose_name=_('Executor')

@@ -10,7 +10,7 @@
 
 {% block content %}
 <h1 class="my-4">{{ title }}</h1>
-<form action="{% url 'label_create' %}" method="post">
+<form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-primary">
