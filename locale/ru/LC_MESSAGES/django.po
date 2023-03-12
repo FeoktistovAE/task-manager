@@ -104,11 +104,11 @@ msgstr "Пользователи"
 
 #: task_manager/templates/base.html:35
 msgid "Sign out"
-msgstr "Выход"
+msgstr "Выйти"
 
 #: task_manager/templates/base.html:37
 msgid "Sign in"
-msgstr "Вход"
+msgstr "Войти"
 
 #: task_manager/templates/base.html:38
 msgid "Sign up"
@@ -253,7 +253,7 @@ msgstr "Вы залогинены"
 
 #: task_manager/users/views.py:76
 msgid "Entry"
-msgstr "Вход"
+msgstr "Войти"
 
 #: task_manager/users/views.py:81
 msgid "You are logged out"
