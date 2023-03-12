@@ -28,7 +28,7 @@
                 <td>{{ label.name }}</td>
                 <td>{{ label.timestamp }}</td>
                 <td>
-                    <a href="{% url 'label_edit' pk=label.id %}">{% translate "Edit" %}</a>
+                    <a href="{% url 'label_edit' pk=label.id %}">{% translate "Update" %}</a>
                     <br>
                     <a href="{% url 'label_destroy' pk=label.id %}" rel="nofollow">{% translate "Delete" %}</a>
                 </td>

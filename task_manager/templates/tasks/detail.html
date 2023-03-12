@@ -48,7 +48,7 @@
             {% endif %}
             <div class="row p-1">
                 <div class="col">
-                    <a href="{% url 'task_edit' pk=object.id %}">{% translate "Edit" %}</a>
+                    <a href="{% url 'task_edit' pk=object.id %}">{% translate "Update" %}</a>
                     <br>
                     <a href="{% url 'task_destroy' pk=object.id %}">{% translate "Delete" %}</a>
                 </div>
