@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-12 14:34+0300\n"
+"POT-Creation-Date: 2023-03-12 15:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,11 +104,11 @@ msgstr "Пользователи"
 
 #: task_manager/templates/base.html:35
 msgid "Sign out"
-msgstr "Выйти"
+msgstr "Выход"
 
-#: task_manager/templates/base.html:37
+#: task_manager/templates/base.html:37 task_manager/users/views.py:76
 msgid "Sign in"
-msgstr "Войти"
+msgstr "Вход"
 
 #: task_manager/templates/base.html:38
 msgid "Sign up"
@@ -250,10 +250,6 @@ msgstr "Невозможно удалить пользователя, потом
 #: task_manager/users/views.py:74
 msgid "You are logged in"
 msgstr "Вы залогинены"
-
-#: task_manager/users/views.py:76
-msgid "Entry"
-msgstr "Войти"
 
 #: task_manager/users/views.py:81
 msgid "You are logged out"
