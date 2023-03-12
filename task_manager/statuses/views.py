@@ -17,7 +17,7 @@ class StatusesIndexView(LoginRequiredMixin, ListView):
     extra_context = {'title': _('Statuses')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -26,11 +26,11 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = StatusForm
     template_name = 'create.html'
     success_url = reverse_lazy('statuses_index')
-    success_message = 'Status succesfully created'
+    success_message = _('Status succesfully created')
     extra_context = {'title': _('Create a status')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -39,11 +39,11 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
     form_class = StatusForm
     template_name = 'update.html'
     success_url = reverse_lazy('statuses_index')
-    success_message = 'Status successfully updated'
+    success_message = _('Status successfully updated')
     extra_context = {'title': _('Update the status')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -56,12 +56,12 @@ class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         try:
             self.delete(request, *args, **kwargs)
-            messages.success(self.request, 'Status successfully deleted')
+            messages.success(self.request, _('Status successfully deleted'))
             return redirect(reverse_lazy('statuses_index'))
         except models.ProtectedError:
-            messages.error(self.request, "Unable to delete status. It's in use")
+            messages.error(self.request, _("Unable to delete status. It's in use"))
             return redirect(reverse_lazy('statuses_index'))
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))

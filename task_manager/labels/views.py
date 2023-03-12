@@ -17,7 +17,7 @@ class LabelsIndexView(LoginRequiredMixin, ListView):
     extra_context = {'title': _('Labels')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -26,11 +26,11 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = LabelForm
     template_name = 'create.html'
     success_url = reverse_lazy('labels_index')
-    success_message = 'Label succesfully created'
+    success_message = _('Label succesfully created')
     extra_context = {'title': _('Create a label')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -39,11 +39,11 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
     form_class = LabelForm
     template_name = 'update.html'
     success_url = reverse_lazy('labels_index')
-    success_message = 'Label successfully updated'
+    success_message = _('Label successfully updated')
     extra_context = {'title': _('Update the label')}
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
 
 
@@ -51,18 +51,18 @@ class LabelDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Labels
     template_name = 'delete.html'
     success_url = reverse_lazy('labels_index')
-    success_message = 'Label successfully deleted'
+    success_message = _('Label successfully deleted')
     extra_context = {'title': _('Delete the label')}
 
     def post(self, request, *args, **kwargs):
         try:
             self.delete(request, *args, **kwargs)
-            messages.success(self.request, 'Label successfully deleted')
+            messages.success(self.request, _('Label successfully deleted'))
             return redirect(reverse_lazy('labels_index'))
         except models.ProtectedError:
-            messages.error(self.request, "Unable to delete label. It's in use")
+            messages.error(self.request, _("Unable to delete label. It's in use"))
             return redirect(reverse_lazy('labels_index'))
 
     def handle_no_permission(self):
-        messages.error(self.request, 'You are not authorized! Please sign in.')
+        messages.error(self.request, _('You are not authorized! Please sign in.'))
         return redirect(reverse_lazy('user_login'))
