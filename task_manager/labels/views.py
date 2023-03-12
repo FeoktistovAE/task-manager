@@ -34,7 +34,7 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return redirect(reverse_lazy('user_login'))
 
 
-class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
+class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Labels
     form_class = LabelForm
     template_name = 'update.html'
