@@ -298,11 +298,11 @@ msgstr "Невозможно удалить пользователя, потом
 
 #: task_manager/users/views.py:74
 msgid "You are logged in"
-msgstr ""
+msgstr "Вы залогинены"
 
 #: task_manager/users/views.py:81
 msgid "You are logged out"
-msgstr "Вы залогинены"
+msgstr "Вы разлогинены"
 
 #: task_manager/views.py:8
 msgid "Main Page"
