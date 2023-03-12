@@ -9,10 +9,8 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
-{% block title %}{% translate "Label list" %}{% endblock %}
-
 {% block content %}
-    <h1 class="my-4">{% translate "Labels" %}</h1>
+    <h1 class="my-4">{{ title }}</h1>
     <a href="{% url 'label_create' %}">{% translate "Create label" %}</a>
     <table class="table table-striped">
         <thead>

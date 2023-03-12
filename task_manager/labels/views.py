@@ -8,11 +8,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class LabelsIndexView(LoginRequiredMixin, ListView):
     model = Labels
     template_name = 'labels/index.html'
+    extra_context = {'title': _('Labels')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -22,9 +24,10 @@ class LabelsIndexView(LoginRequiredMixin, ListView):
 class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Labels
     form_class = LabelForm
-    template_name = 'labels/create.html'
+    template_name = 'create.html'
     success_url = reverse_lazy('labels_index')
     success_message = 'Label succesfully created'
+    extra_context = {'title': _('Create a label')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -34,9 +37,10 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
     model = Labels
     form_class = LabelForm
-    template_name = 'labels/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('labels_index')
     success_message = 'Label successfully updated'
+    extra_context = {'title': _('Update the label')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -45,9 +49,10 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
 
 class LabelDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Labels
-    template_name = 'labels/delete.html'
+    template_name = 'delete.html'
     success_url = reverse_lazy('labels_index')
     success_message = 'Label successfully deleted'
+    extra_context = {'title': _('Delete the label')}
 
     def post(self, request, *args, **kwargs):
         try:

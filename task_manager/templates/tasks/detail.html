@@ -8,10 +8,8 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
-{% block title %}{% translate "Show a status" %}{% endblock %}
-
 {% block content %}
-<h1 class="my-4">{% translate "Task view" %}</h1>
+<h1 class="my-4">{{ title }}</h1>
 <div class="card">
     <div class="card-header bg-secondary text-white">
         <h2>{{ object.name }}</h2>

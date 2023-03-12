@@ -8,14 +8,14 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
-{% block title %}Удаление пользователя{% endblock %}
-
 {% block content %}
-
-<h1 class="my-4">Delete the user</h1>
-<p>Are you shure you want to delete the user {{ full_name }}?</p>
+<h1 class="my-4">{{ title }}</h1>
+<p>{% translate "Are you shure you want to delete" %} {{ object }}?</p>
 <form method="post">
     {% csrf_token %}
-    <input class="btn btn-danger" type="submit" value="Yes, i am">
+    <button type="submit" class="btn btn-danger">
+        {% translate "Delete" %}
+    </button>
+</form>
 </form>
 {% endblock %}

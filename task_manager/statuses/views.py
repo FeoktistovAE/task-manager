@@ -8,11 +8,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class StatusesIndexView(LoginRequiredMixin, ListView):
     model = Statuses
     template_name = 'statuses/index.html'
+    extra_context = {'title': _('Statuses')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -22,9 +24,10 @@ class StatusesIndexView(LoginRequiredMixin, ListView):
 class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Statuses
     form_class = StatusForm
-    template_name = 'statuses/create.html'
+    template_name = 'create.html'
     success_url = reverse_lazy('statuses_index')
     success_message = 'Status succesfully created'
+    extra_context = {'title': _('Create a status')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -34,9 +37,10 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
     model = Statuses
     form_class = StatusForm
-    template_name = 'statuses/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('statuses_index')
     success_message = 'Status successfully updated'
+    extra_context = {'title': _('Update the status')}
 
     def handle_no_permission(self):
         messages.error(self.request, 'You are not authorized! Please sign in.')
@@ -45,8 +49,9 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
 
 class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Statuses
-    template_name = 'statuses/delete.html'
+    template_name = 'delete.html'
     success_url = reverse_lazy('statuses_index')
+    extra_context = {'title': _('Delete the status')}
 
     def post(self, request, *args, **kwargs):
         try:

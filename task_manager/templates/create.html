@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {# load the tag library #}
 {% load bootstrap4 %}
 
@@ -9,14 +8,13 @@
 {% bootstrap_javascript jquery='full' %}
 {% load i18n %}
 
-{% block title %}{% translate "Update a task" %}{% endblock %}
-
-
 {% block content %}
-<h1 class="my-4">{% translate "Update the task" %}</h1>
-<form method = "post">
+<h1 class="my-4">{{ title }}</h1>
+<form action="{% url 'label_create' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <input class="btn btn-primary" type="submit" value="Update" >
+    <button type="submit" class="btn btn-primary">
+      {% translate "Create" %}
+    </button>
 </form>
 {% endblock %}

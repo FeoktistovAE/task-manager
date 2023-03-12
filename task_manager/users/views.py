@@ -16,6 +16,7 @@ from django.utils.translation import gettext_lazy as _
 class UsersIndexView(ListView):
     model = Users
     template_name = 'users/index.html'
+    extra_context = {'title': _('Users')}
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
@@ -24,14 +25,16 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     template_name = 'users/create.html'
     success_url = reverse_lazy('user_login')
     success_message = _('User has created')
+    extra_context = {'title': _('Create a user')}
 
 
 class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = Users
     form_class = UsersForm
-    template_name = 'users/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('users_index')
     success_message = _('User succesfully updated')
+    extra_context = {'title': _('Update the user')}
 
     def test_func(self):
         obj = self.get_object()
@@ -45,7 +48,8 @@ class UserDeleteView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixi
     model = Users
     success_url = reverse_lazy('users_index')
     success_message = _('User successfully deleted')
-    template_name = 'users/delete.html'
+    template_name = 'delete.html'
+    extra_context = {'title': _('Delete the user')}
 
     def post(self, request, *args, **kwargs):
         try:
@@ -69,6 +73,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     form_class = UsersLoginForm
     success_message = _('You are logged in')
     next_page = reverse_lazy('users_index')
+    extra_context = {'title': _('Entry')}
 
 
 def logout_view(request):
