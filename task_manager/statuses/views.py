@@ -34,7 +34,7 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return redirect(reverse_lazy('user_login'))
 
 
-class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin,  UpdateView):
+class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Statuses
     form_class = StatusForm
     template_name = 'update.html'
