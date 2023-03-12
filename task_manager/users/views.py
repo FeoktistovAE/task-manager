@@ -73,7 +73,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     form_class = UsersLoginForm
     success_message = _('You are logged in')
     next_page = reverse_lazy('users_index')
-    extra_context = {'title': _('Вход')}
+    extra_context = {'title': _('Entry')}
 
 
 def logout_view(request):
