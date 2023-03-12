@@ -199,9 +199,12 @@ msgid "Sign Up"
 msgstr "Регистрация"
 
 #: task_manager/templates/users/index.html:18
+msgid "Username"
+msgstr "Имя пользователя"
+
 #: task_manager/templates/users/login.html:27
 msgid "Login"
-msgstr "Имя пользователя"
+msgstr "Войти"
 
 #: task_manager/templates/users/index.html:19
 msgid "Full name"
