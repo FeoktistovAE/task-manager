@@ -25,7 +25,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     template_name = 'users/create.html'
     success_url = reverse_lazy('user_login')
     success_message = _('User has created')
-    extra_context = {'title': _('Create a user')}
+    extra_context = {'title': _('Sign up')}
 
 
 class UserUpdateView(SuccessMessageMixin, UserPassesTestMixin, LoginRequiredMixin, UpdateView):
