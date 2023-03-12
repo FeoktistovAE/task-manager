@@ -123,6 +123,9 @@ msgid "Are you shure you want to delete"
 msgstr "Вы уверены, что хотите удалить"
 
 #: task_manager/templates/delete.html:17
+msgid "Yes, delete"
+msgstr "Да, удалить"
+
 #: task_manager/templates/labels/index.html:33
 #: task_manager/templates/statuses/index.html:33
 #: task_manager/templates/tasks/detail.html:53
