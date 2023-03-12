@@ -72,7 +72,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UsersLoginForm
     success_message = _('You are logged in')
-    next_page = reverse_lazy('users_index')
+    next_page = reverse_lazy('index')
     extra_context = {'title': _('Sign in')}
 
 
