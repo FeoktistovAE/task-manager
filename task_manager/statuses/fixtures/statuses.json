@@ -1,0 +1,18 @@
+[
+    {
+        "model": "statuses.statuses",
+        "pk": 1,
+        "fields": {
+            "name": "test_status1",
+            "timestamp": "2023-03-16T01:30:38.384Z"
+        }
+    },
+    {
+        "model": "statuses.statuses",
+        "pk": 2,
+        "fields": {
+            "name": "test_status2",
+            "timestamp": "2023-03-16T12:00:39.384Z"
+        }
+    }
+  ]

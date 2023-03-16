@@ -7,11 +7,10 @@ from task_manager.users.models import Users
 
 
 class StatusesTestCase(TestCase):
+    fixtures = ['labels.json', 'users.json']
+
     def setUp(self):
         self.Client = Client()
-        Users.objects.create_user(username='username', password='password')
-        Labels.objects.create(name='test_label1')
-        Labels.objects.create(name='test_label2')
 
     def test_labels_index_view(self):
         test_user = Users.objects.first()

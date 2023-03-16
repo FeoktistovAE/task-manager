@@ -1,7 +1,10 @@
 install:
 	poetry install
 lint:
-	poetry run flake8 task_manager
+	poetry run flake8 task_manager/users
+	poetry run flake8 task_manager/labels
+	poetry run flake8 task_manager/statuses
+	poetry run flake8 task_manager/tasks
 run:
 	python3 manage.py runserver
 migrations:

@@ -6,11 +6,10 @@ from django.urls import reverse
 
 
 class StatusesTestCase(TestCase):
+    fixtures = ['statuses.json', 'users.json']
+
     def setUp(self):
         self.Client = Client()
-        Users.objects.create_user(username='username', password='password')
-        Statuses.objects.create(name='test_status1')
-        Statuses.objects.create(name='test_status2')
 
     def test_statuses_index_view(self):
         test_user = Users.objects.first()

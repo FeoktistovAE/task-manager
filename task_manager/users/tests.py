@@ -5,21 +5,10 @@ from django.urls import reverse
 
 
 class UsersTestCase(TestCase):
+    fixtures = ['users.json']
+
     def setUp(self):
         self.client = Client()
-        Users.objects.create_user(username='username', password='password')
-        Users.objects.create(
-            username='username1',
-            password='user_password1',
-            first_name='first_name1',
-            last_name='last_name1'
-        )
-        Users.objects.create(
-            username='username2',
-            password='user_password2',
-            first_name='first_name2',
-            last_name='last_name2'
-        )
 
     def test_users_view(self):
         response = self.client.get(reverse('users_index'))

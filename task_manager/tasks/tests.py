@@ -8,21 +8,12 @@ from task_manager.statuses.models import Statuses
 
 
 class TasksTestCase(TestCase):
+    fixtures = ['users.json', 'statuses.json']
+
     def setUp(self):
         self.Client = Client()
-        user = Users.objects.create_user(
-            username='testusername',
-            first_name='firstname',
-            last_name='lastname',
-            password='password',
-        )
-        Users.objects.create_user(
-            username='testusername1',
-            first_name='firstname1',
-            last_name='lastname1',
-            password='password1',
-        )
-        status = Statuses.objects.create(name='test_status')
+        user = Users.objects.first()
+        status = Statuses.objects.first()
         Tasks.objects.create(
             name='test_task1',
             description='test_description',
