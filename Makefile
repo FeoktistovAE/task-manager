@@ -5,6 +5,7 @@ lint:
 	poetry run flake8 task_manager/labels
 	poetry run flake8 task_manager/statuses
 	poetry run flake8 task_manager/tasks
+	poetry run flake8 task_manager
 run:
 	python3 manage.py runserver
 migrations:
