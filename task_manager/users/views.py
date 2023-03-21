@@ -33,7 +33,12 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     extra_context = {'title': title_names.user_create}
 
 
-class UserUpdateView(SuccessMessageMixin, UserPassesUsernameTestMixin, LoginRequiredMixin, UpdateView):
+class UserUpdateView(
+    SuccessMessageMixin,
+    UserPassesUsernameTestMixin,
+    LoginRequiredMixin,
+    UpdateView
+):
     model = Users
     form_class = UsersForm
     template_name = 'update.html'
@@ -49,7 +54,12 @@ class UserUpdateView(SuccessMessageMixin, UserPassesUsernameTestMixin, LoginRequ
         return redirect(reverse_lazy('users_index'))
 
 
-class UserDeleteView(SuccessMessageMixin, UserPassesUsernameTestMixin, LoginRequiredMixin, DeleteView):
+class UserDeleteView(
+    SuccessMessageMixin,
+    UserPassesUsernameTestMixin,
+    LoginRequiredMixin,
+    DeleteView
+):
     model = Users
     success_url = reverse_lazy('users_index')
     success_message = flash_messages.delete_user
