@@ -1,0 +1,35 @@
+[
+    {
+        "model": "tasks.tasks",
+        "pk": 4,
+        "fields": {
+            "name": "Закончить проект Менеджер Задач",
+            "description": "Переписать интернационализацию и фикстуры",
+            "author": 3,
+            "status": 2,
+            "executor": 2,
+            "timestamp": "2023-02-16T12:00:39.384Z"
+        }
+    },
+    {
+        "model": "tasks.tasks",
+        "pk": 6,
+        "fields": {
+            "name": "Пройти курс по Докеру",
+            "description": "Закончить к завтрашнему вечеру прохождение теории",
+            "author": 2,
+            "status": 2,
+            "executor": 3,
+            "timestamp": "2023-03-16T12:00:39.384Z"
+        }
+    },
+    {
+        "model": "tasks.taskstolabels",
+        "pk": 1,
+        "fields": {
+            "task": 4,
+            "label": 2
+        }
+    }
+]
+

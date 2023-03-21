@@ -1,19 +1,23 @@
 import django_filters
+from django import forms
+
 from task_manager.tasks.models import Tasks
 from task_manager.labels.models import Labels
-from django import forms
-from django.utils.translation import gettext_lazy as _
+from task_manager.text import FieldNames
+
+
+field_names = FieldNames()
 
 
 class TaskFilter(django_filters.FilterSet):
     labels = django_filters.ModelChoiceFilter(
         queryset=Labels.objects.all(),
-        label=_('Label'),
+        label=field_names.label,
     )
     client_tasks = django_filters.BooleanFilter(
         method='get_client_task',
         widget=forms.CheckboxInput,
-        label=_('Only your own tasks')
+        label=field_names.own_tasks,
     )
 
     def get_client_task(self, queryset, name, value):

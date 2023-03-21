@@ -1,8 +1,12 @@
 from django.db import models
+
 from task_manager.users.models import Users
 from task_manager.statuses.models import Statuses
 from task_manager.labels.models import Labels
-from django.utils.translation import gettext_lazy as _
+from task_manager.text import FieldNames
+
+
+field_names = FieldNames()
 
 
 class Tasks(models.Model):
@@ -10,26 +14,26 @@ class Tasks(models.Model):
         max_length=255,
         unique=True,
         blank=False,
-        verbose_name=_('Name')
+        verbose_name=field_names.name
     )
     description = models.TextField(
-        verbose_name=_('Description'),
+        verbose_name=field_names.desctiption,
         blank=True
     )
     author = models.ForeignKey(
         Users,
         related_name='author',
         on_delete=models.PROTECT,
-        verbose_name=_('Author'),
+        verbose_name=field_names.author,
     )
     status = models.ForeignKey(
         Statuses,
         on_delete=models.PROTECT,
-        verbose_name=_('Status')
+        verbose_name=field_names.status
     )
     timestamp = models.DateTimeField(
         auto_now_add=True,
-        verbose_name=_('Date created')
+        verbose_name=field_names.date_created
     )
     executor = models.ForeignKey(
         Users,
@@ -37,14 +41,14 @@ class Tasks(models.Model):
         blank=True,
         null=True,
         on_delete=models.PROTECT,
-        verbose_name=_('Executor')
+        verbose_name=field_names.executor
     )
     labels = models.ManyToManyField(
         Labels,
         related_name='label',
         blank=True,
         through='TasksToLabels',
-        verbose_name=_('Labels')
+        verbose_name=field_names.labels
     )
 
     def __str__(self):

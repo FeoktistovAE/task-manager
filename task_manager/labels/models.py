@@ -1,5 +1,8 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from task_manager.text import FieldNames
+
+
+field_names = FieldNames()
 
 
 class Labels(models.Model):
@@ -7,7 +10,7 @@ class Labels(models.Model):
         max_length=255,
         unique=True,
         blank=False,
-        verbose_name=_('Name')
+        verbose_name=field_names.name
     )
     timestamp = models.DateTimeField(auto_now_add=True)
 

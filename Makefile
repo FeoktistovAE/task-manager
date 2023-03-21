@@ -18,3 +18,7 @@ test-coverage:
 	poetry run pytest --cov=task_manager --cov-report xml
 test:
 	poetry run python3 manage.py test
+messages:
+	django-admin makemessages -l ru
+compile:
+	django-admin compilemessages
