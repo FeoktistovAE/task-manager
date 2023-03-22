@@ -183,7 +183,7 @@ msgid "User successfully deleted"
 msgstr "Пользователь успешно удалён"
 
 #: task_manager/text.py:10
-msgid "Unable to delete user. He's in use"
+msgid "Unable to delete user. It's in use"
 msgstr "Невозможно удалить пользователя, потому что он используется"
 
 #: task_manager/text.py:11

@@ -11,33 +11,28 @@ from task_manager.tasks.models import Tasks
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.filter import TaskFilter
 from task_manager.mixins import NoPermissionMixin
-from task_manager.text import UserFlashMessages, TaskFlashMessages, TitleNames
-
-
-user_messages = UserFlashMessages()
-task_messages = TaskFlashMessages()
-title_names = TitleNames()
+from task_manager import translation
 
 
 class TasksIndexView(NoPermissionMixin, FilterView):
     model = Tasks
     template_name = 'tasks/index.html'
     filterset_class = TaskFilter
-    extra_context = {'title': title_names.tasks}
+    extra_context = {'title': translation.TASKS_TITLE}
 
 
 class TaskDetailView(NoPermissionMixin, DetailView):
     model = Tasks
     template_name = 'tasks/detail.html'
-    extra_context = {'title': title_names.task_detail}
+    extra_context = {'title': translation.TASK_DETAIL_TITLE}
 
 
 class TaskCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = 'create.html'
     success_url = reverse_lazy('tasks_index')
-    success_message = task_messages.create_task
-    extra_context = {'title': title_names.task_create}
+    success_message = translation.TASK_CREATE
+    extra_context = {'title': translation.TASK_CREATE_TITLE}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -49,16 +44,16 @@ class TaskUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'update.html'
     success_url = reverse_lazy('tasks_index')
-    success_message = task_messages.update_task
-    extra_context = {'title': title_names.task_update}
+    success_message = translation.TASK_UPDATE
+    extra_context = {'title': translation.TASK_UPDATE_TITLE}
 
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Tasks
     template_name = 'delete.html'
     success_url = reverse_lazy('tasks_index')
-    success_message = task_messages.delete_task
-    extra_context = {'title': title_names.task_delete}
+    success_message = translation.TASK_DELETE
+    extra_context = {'title': translation.TASK_DELETE_TITLE}
 
     def test_func(self):
         obj = self.get_object()
@@ -66,7 +61,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
-            messages.error(self.request, user_messages.not_authorhorized_user)
+            messages.error(self.request, translation.NOT_AUTHORIZED_USER)
             return redirect(reverse_lazy('tasks_index'))
-        messages.error(self.request, task_messages.no_rights_to_delete_task)
+        messages.error(self.request, translation.NO_RIGHTS_TO_DELETE_TASK)
         return redirect(reverse_lazy('tasks_index'))

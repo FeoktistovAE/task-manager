@@ -1,14 +1,15 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+import json
 
 from task_manager.statuses.models import Statuses
 from task_manager.users.models import Users
-from task_manager.text import UserFlashMessages, StatusFlashMessages
+from task_manager import translation
+from task_manager import FIXTURE_PATH
 
 
-user_messages = UserFlashMessages()
-status_messages = StatusFlashMessages()
+status_form = json.load(open(FIXTURE_PATH))['status']
 
 
 class StatusesTestCase(TestCase):
@@ -16,7 +17,6 @@ class StatusesTestCase(TestCase):
 
     def setUp(self):
         self.Client = Client()
-        self.status_form = {'name': 'new_name'}
 
     def test_statuses_index_view(self):
         test_user = Users.objects.first()
@@ -27,7 +27,7 @@ class StatusesTestCase(TestCase):
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         """ Authorized user tests """
         self.client.force_login(test_user)
@@ -44,14 +44,14 @@ class StatusesTestCase(TestCase):
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         response = self.client.post(
             reverse('status_create'),
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         """ Authorized user tests """
         self.client.force_login(test_user)
@@ -62,12 +62,12 @@ class StatusesTestCase(TestCase):
 
         response = self.client.post(
             reverse('status_create'),
-            self.status_form,
+            status_form,
             follow=True,
         )
         self.assertRedirects(response, reverse('statuses_index'))
         self.assertEqual(Statuses.objects.count(), 3)
-        self.assertContains(response, text=status_messages.create_status)
+        self.assertContains(response, text=translation.STATUS_CREATE)
 
     def test_status_update_view(self):
         test_user = Users.objects.first()
@@ -79,15 +79,15 @@ class StatusesTestCase(TestCase):
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         response = self.client.post(
             reverse('status_edit', kwargs={'pk': test_status.id}),
-            self.status_form,
+            status_form,
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         """ Authorized user tests """
         self.client.force_login(test_user)
@@ -96,13 +96,13 @@ class StatusesTestCase(TestCase):
 
         response = self.client.post(
             reverse('status_edit', kwargs={'pk': test_status.id}),
-            self.status_form,
+            status_form,
             follow=True,
         )
         test_status.refresh_from_db()
         self.assertRedirects(response, reverse('statuses_index'))
         self.assertEqual(test_status.name, 'new_name')
-        self.assertContains(response, text=status_messages.update_status)
+        self.assertContains(response, text=translation.STATUS_UPDATE)
 
     def test_status_delete_view(self):
         test_user = Users.objects.first()
@@ -114,14 +114,14 @@ class StatusesTestCase(TestCase):
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         response = self.client.post(
             reverse('status_destroy', kwargs={'pk': test_status.id}),
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
-        self.assertContains(response, text=user_messages.not_authorhorized_user)
+        self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
         """ Authorized user test """
         self.client.force_login(test_user)
@@ -135,16 +135,22 @@ class StatusesTestCase(TestCase):
         )
         self.assertEqual(Statuses.objects.count(), 1)
         self.assertRedirects(response, reverse('statuses_index'))
-        self.assertContains(response, text=status_messages.delete_status)
+        self.assertContains(response, text=translation.STATUS_DELETE)
 
     def test_delete_protected_status(self):
         test_user = Users.objects.first()
         protected_status = Statuses.objects.last()
 
         self.client.force_login(test_user)
+
+        response = self.client.get(
+            reverse('status_destroy', kwargs={'pk': protected_status.id}),
+        )
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post(
             reverse('status_destroy', kwargs={'pk': protected_status.id}),
             follow=True,
         )
         self.assertRedirects(response, reverse('statuses_index'))
-        self.assertContains(response, text=status_messages.delete_protected_status)
+        self.assertContains(response, text=translation.DELETE_PROTECTED_STATUS)

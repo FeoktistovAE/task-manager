@@ -9,17 +9,13 @@ from django.db import models
 from task_manager.statuses.models import Statuses
 from task_manager.statuses.forms import StatusForm
 from task_manager.mixins import NoPermissionMixin
-from task_manager.text import StatusFlashMessages, TitleNames
-
-
-status_messages = StatusFlashMessages()
-title_names = TitleNames()
+from task_manager import translation
 
 
 class StatusesIndexView(NoPermissionMixin, ListView):
     model = Statuses
     template_name = 'statuses/index.html'
-    extra_context = {'title': title_names.statuses}
+    extra_context = {'title': translation.STATUSES_TITLE}
 
 
 class StatusCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
@@ -27,8 +23,8 @@ class StatusCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
     form_class = StatusForm
     template_name = 'create.html'
     success_url = reverse_lazy('statuses_index')
-    success_message = status_messages.create_status
-    extra_context = {'title': title_names.status_create}
+    success_message = translation.STATUS_CREATE
+    extra_context = {'title': translation.STATUS_CREATE_TITLE}
 
 
 class StatusUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
@@ -36,21 +32,21 @@ class StatusUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
     form_class = StatusForm
     template_name = 'update.html'
     success_url = reverse_lazy('statuses_index')
-    success_message = status_messages.update_status
-    extra_context = {'title': title_names.status_update}
+    success_message = translation.STATUS_UPDATE
+    extra_context = {'title': translation.STATUS_UPDATE_TITLE}
 
 
 class StatusDeleteView(NoPermissionMixin, SuccessMessageMixin, DeleteView):
     model = Statuses
     template_name = 'delete.html'
     success_url = reverse_lazy('statuses_index')
-    extra_context = {'title': title_names.status_delete}
+    extra_context = {'title': translation.STATUS_DELETE_TITLE}
 
     def post(self, request, *args, **kwargs):
         try:
             self.delete(request, *args, **kwargs)
-            messages.success(self.request, status_messages.delete_status)
+            messages.success(self.request, translation.STATUS_DELETE)
             return redirect(reverse_lazy('statuses_index'))
         except models.ProtectedError:
-            messages.error(self.request, status_messages.delete_protected_status)
+            messages.error(self.request, translation.DELETE_PROTECTED_STATUS)
             return redirect(reverse_lazy('statuses_index'))

@@ -9,17 +9,13 @@ from django.db import models
 from task_manager.labels.models import Labels
 from task_manager.labels.forms import LabelForm
 from task_manager.mixins import NoPermissionMixin
-from task_manager.text import LabelFlashMessages, TitleNames
-
-
-label_messages = LabelFlashMessages()
-title_names = TitleNames()
+from task_manager import translation
 
 
 class LabelsIndexView(NoPermissionMixin, ListView):
     model = Labels
     template_name = 'labels/index.html'
-    extra_context = {'title': title_names.labels}
+    extra_context = {'title': translation.LABELS_TITLE}
 
 
 class LabelCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
@@ -27,8 +23,8 @@ class LabelCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
     form_class = LabelForm
     template_name = 'create.html'
     success_url = reverse_lazy('labels_index')
-    success_message = label_messages.create_label
-    extra_context = {'title': title_names.label_create}
+    success_message = translation.LABEL_CREATE
+    extra_context = {'title': translation.LABEL_CREATE_TITLE}
 
 
 class LabelUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
@@ -36,22 +32,22 @@ class LabelUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
     form_class = LabelForm
     template_name = 'update.html'
     success_url = reverse_lazy('labels_index')
-    success_message = label_messages.update_label
-    extra_context = {'title': title_names.label_update}
+    success_message = translation.LABEL_UPDATE
+    extra_context = {'title': translation.LABEL_UPDATE_TITLE}
 
 
 class LabelDeleteView(NoPermissionMixin, SuccessMessageMixin, DeleteView):
     model = Labels
     template_name = 'delete.html'
     success_url = reverse_lazy('labels_index')
-    success_message = label_messages.delete_label
-    extra_context = {'title': title_names.label_delete}
+    success_message = translation.LABEL_DELETE
+    extra_context = {'title': translation.LABEL_DELETE_TITLE}
 
     def post(self, request, *args, **kwargs):
         try:
             self.delete(request, *args, **kwargs)
-            messages.success(self.request, label_messages.delete_label)
+            messages.success(self.request, translation.LABEL_DELETE)
             return redirect(reverse_lazy('labels_index'))
         except models.ProtectedError:
-            messages.error(self.request, label_messages.delete_protected_label)
+            messages.error(self.request, translation.DELETE_PROTECTED_LABEL)
             return redirect(reverse_lazy('labels_index'))

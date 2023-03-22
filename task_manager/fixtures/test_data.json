@@ -1,0 +1,22 @@
+{
+    "user": {
+        "username": "new_username",
+        "first_name": "new_firstname",
+        "last_name": "new_lastname",
+        "password1": "Qweasd1!",
+        "password2": "Qweasd1!"
+    },
+    "label": {
+        "name": "new_name"
+    },
+    "status": {
+        "name": "new_name"
+    },
+    "task": {
+        "name": "new_task",
+        "status": 1,
+        "author": 1,
+        "description": "new_description",
+        "executor": 1
+    }
+}
