@@ -35,7 +35,7 @@ class UserUpdateView(
     UpdateView
 ):
     def __init__(self):
-        self.message = self.message = translation.NO_RIGHTS_TO_UPDATE_USER
+        self.message = translation.NO_RIGHTS_TO_UPDATE_USER
 
     model = Users
     form_class = UsersForm
