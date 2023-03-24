@@ -6,20 +6,20 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.db import models
 
-from task_manager.labels.models import Labels
+from task_manager.labels.models import Label
 from task_manager.labels.forms import LabelForm
 from task_manager.mixins import NoPermissionMixin
 from task_manager import translation
 
 
 class LabelsIndexView(NoPermissionMixin, ListView):
-    model = Labels
+    model = Label
     template_name = 'labels/index.html'
     extra_context = {'title': translation.LABELS_TITLE}
 
 
 class LabelCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
-    model = Labels
+    model = Label
     form_class = LabelForm
     template_name = 'create.html'
     success_url = reverse_lazy('labels_index')
@@ -28,7 +28,7 @@ class LabelCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
 
 
 class LabelUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
-    model = Labels
+    model = Label
     form_class = LabelForm
     template_name = 'update.html'
     success_url = reverse_lazy('labels_index')
@@ -37,7 +37,7 @@ class LabelUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
 
 
 class LabelDeleteView(NoPermissionMixin, SuccessMessageMixin, DeleteView):
-    model = Labels
+    model = Label
     template_name = 'delete.html'
     success_url = reverse_lazy('labels_index')
     success_message = translation.LABEL_DELETE

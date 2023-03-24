@@ -1,6 +1,6 @@
 [
     {
-        "model": "tasks.tasks",
+        "model": "tasks.task",
         "pk": 4,
         "fields": {
             "name": "Закончить проект Менеджер Задач",
@@ -12,7 +12,7 @@
         }
     },
     {
-        "model": "tasks.tasks",
+        "model": "tasks.task",
         "pk": 6,
         "fields": {
             "name": "Пройти курс по Докеру",
@@ -24,7 +24,7 @@
         }
     },
     {
-        "model": "tasks.taskstolabels",
+        "model": "tasks.tasktolabel",
         "pk": 1,
         "fields": {
             "task": 4,

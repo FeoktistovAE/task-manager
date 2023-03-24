@@ -1,16 +1,12 @@
 from django.test import TestCase
 from django.test import Client
-from task_manager.tasks.models import Tasks
-from task_manager.users.models import Users
+from task_manager.tasks.models import Task
+from task_manager.users.models import User
 from django.urls import reverse
-import json
 
-from task_manager.statuses.models import Statuses
+from task_manager.statuses.models import Status
 from task_manager import translation
-from task_manager import FIXTURE_PATH
-
-
-task_form = json.load(open(FIXTURE_PATH))['task']
+from task_manager.test_form_loader import load_form
 
 
 class TasksTestCase(TestCase):
@@ -18,9 +14,10 @@ class TasksTestCase(TestCase):
 
     def setUp(self):
         self.Client = Client()
+        self.task_form = load_form('task')
 
     def test_tasks_index_view(self):
-        test_user = Users.objects.first()
+        test_user = User.objects.first()
 
         """ Not authorized user tests """
         response = self.client.get(
@@ -37,8 +34,8 @@ class TasksTestCase(TestCase):
         self.assertEqual(len(response.context['object_list']), 2)
 
     def test_task_create_view(self):
-        test_user = Users.objects.first()
-        test_status = Statuses.objects.first()
+        test_user = User.objects.first()
+        test_status = Status.objects.first()
 
         """ Not authorized user tests """
         response = self.client.get(
@@ -62,11 +59,11 @@ class TasksTestCase(TestCase):
 
         response = self.client.post(
             reverse('task_create'),
-            task_form,
+            self.task_form,
             follow=True,
         )
-        self.assertEqual(Tasks.objects.count(), 3)
-        task = Tasks.objects.last()
+        self.assertEqual(Task.objects.count(), 3)
+        task = Task.objects.last()
         self.assertEqual(task.author, test_user)
         self.assertEqual(task.status, test_status)
         self.assertEqual(task.description, 'new_description')
@@ -74,8 +71,8 @@ class TasksTestCase(TestCase):
         self.assertContains(response, text=translation.TASK_CREATE)
 
     def test_task_update_view(self):
-        test_user = Users.objects.first()
-        task = Tasks.objects.first()
+        test_user = User.objects.first()
+        task = Task.objects.first()
 
         """ Not authorized user tests """
         response = self.client.get(
@@ -96,7 +93,7 @@ class TasksTestCase(TestCase):
         self.client.force_login(test_user)
         response = self.client.post(
             reverse('task_edit', kwargs={'pk': task.id}),
-            task_form,
+            self.task_form,
             follow=True,
         )
         task.refresh_from_db()
@@ -105,12 +102,9 @@ class TasksTestCase(TestCase):
         self.assertEqual(task.description, 'new_description')
         self.assertContains(response, text=translation.TASK_UPDATE)
 
-    def test_task_delete_view(self):
-        task_author = Users.objects.last()
-        self_task = Tasks.objects.first()
-        someones_task = Tasks.objects.last()
+    def test_task_not_authorized_user_delete(self):
+        someones_task = Task.objects.last()
 
-        """ Not authorized user tests """
         response = self.client.get(
             reverse('task_destroy', kwargs={'pk': someones_task.id}),
             follow=True,
@@ -125,7 +119,11 @@ class TasksTestCase(TestCase):
         self.assertRedirects(response, reverse('user_login'))
         self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
-        """ Authorized user tests """
+    def test_task_authorized_user_delete(self):
+        task_author = User.objects.last()
+        self_task = Task.objects.first()
+        someones_task = Task.objects.last()
+
         self.client.force_login(task_author)
 
         response = self.client.get(
@@ -145,11 +143,11 @@ class TasksTestCase(TestCase):
         response = self.client.get(reverse('task_destroy', kwargs={'pk': self_task.id}))
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(Tasks.objects.count(), 2)
+        self.assertEqual(Task.objects.count(), 2)
         response = self.client.post(
             reverse('task_destroy', kwargs={'pk': self_task.id}),
             follow=True,
         )
-        self.assertEqual(Tasks.objects.count(), 1)
+        self.assertEqual(Task.objects.count(), 1)
         self.assertRedirects(response, reverse('tasks_index'))
         self.assertContains(response, text=translation.TASK_DELETE)

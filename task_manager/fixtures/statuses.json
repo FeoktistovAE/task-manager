@@ -1,17 +1,17 @@
 [
     {
-        "model": "labels.labels",
+        "model": "statuses.status",
         "pk": 1,
         "fields": {
-            "name": "test_label1",
+            "name": "test_status1",
             "timestamp": "2023-03-16T01:30:38.384Z"
         }
     },
     {
-        "model": "labels.labels",
+        "model": "statuses.status",
         "pk": 2,
         "fields": {
-            "name": "test_label2",
+            "name": "test_status2",
             "timestamp": "2023-03-16T12:00:39.384Z"
         }
     }

@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 
-from task_manager.tasks.models import Tasks
+from task_manager.tasks.models import Task
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.filter import TaskFilter
 from task_manager.mixins import NoPermissionMixin
@@ -15,14 +15,14 @@ from task_manager import translation
 
 
 class TasksIndexView(NoPermissionMixin, FilterView):
-    model = Tasks
+    model = Task
     template_name = 'tasks/index.html'
     filterset_class = TaskFilter
     extra_context = {'title': translation.TASKS_TITLE}
 
 
 class TaskDetailView(NoPermissionMixin, DetailView):
-    model = Tasks
+    model = Task
     template_name = 'tasks/detail.html'
     extra_context = {'title': translation.TASK_DETAIL_TITLE}
 
@@ -40,7 +40,7 @@ class TaskCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
 
 
 class TaskUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
-    model = Tasks
+    model = Task
     form_class = TaskForm
     template_name = 'update.html'
     success_url = reverse_lazy('tasks_index')
@@ -49,7 +49,7 @@ class TaskUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
 
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
-    model = Tasks
+    model = Task
     template_name = 'delete.html'
     success_url = reverse_lazy('tasks_index')
     success_message = translation.TASK_DELETE

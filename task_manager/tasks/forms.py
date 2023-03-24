@@ -1,8 +1,8 @@
-from task_manager.tasks.models import Tasks
+from task_manager.tasks.models import Task
 from django.forms import ModelForm
 
 
 class TaskForm(ModelForm):
     class Meta:
-        model = Tasks
+        model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']

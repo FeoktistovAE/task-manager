@@ -23,5 +23,5 @@ class UsernameCheckMixin(LoginRequiredMixin):
         if not self.request.user.is_authenticated:
             messages.error(self.request, translation.NOT_AUTHORIZED_USER)
             return redirect(reverse_lazy('user_login'))
-        messages.error(self.request, self.message)
+        messages.error(self.request, self.no_rights_message)
         return redirect(reverse_lazy('users_index'))

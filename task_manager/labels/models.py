@@ -2,7 +2,7 @@ from django.db import models
 from task_manager import translation
 
 
-class Labels(models.Model):
+class Label(models.Model):
     name = models.CharField(
         max_length=255,
         unique=True,
@@ -16,4 +16,4 @@ class Labels(models.Model):
 
     def save(self, *args, **kwargs):
         self.validate_unique()
-        super(Labels, self).save(*args, **kwargs)
+        super(Label, self).save(*args, **kwargs)

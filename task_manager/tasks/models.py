@@ -1,12 +1,12 @@
 from django.db import models
 
-from task_manager.users.models import Users
-from task_manager.statuses.models import Statuses
-from task_manager.labels.models import Labels
+from task_manager.users.models import User
+from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 from task_manager import translation
 
 
-class Tasks(models.Model):
+class Task(models.Model):
     name = models.CharField(
         max_length=255,
         unique=True,
@@ -18,13 +18,13 @@ class Tasks(models.Model):
         blank=True
     )
     author = models.ForeignKey(
-        Users,
+        User,
         related_name='author',
         on_delete=models.PROTECT,
         verbose_name=translation.AUTHOR_FIELD,
     )
     status = models.ForeignKey(
-        Statuses,
+        Status,
         on_delete=models.PROTECT,
         verbose_name=translation.STATUS_FIELD
     )
@@ -33,7 +33,7 @@ class Tasks(models.Model):
         verbose_name=translation.DATE_CREATED_FIELD
     )
     executor = models.ForeignKey(
-        Users,
+        User,
         related_name='executor',
         blank=True,
         null=True,
@@ -41,10 +41,10 @@ class Tasks(models.Model):
         verbose_name=translation.EXECUTOR_FIELD
     )
     labels = models.ManyToManyField(
-        Labels,
+        Label,
         related_name='label',
         blank=True,
-        through='TasksToLabels',
+        through='TaskToLabel',
         verbose_name=translation.LABELS_FIELD
     )
 
@@ -52,9 +52,9 @@ class Tasks(models.Model):
         return self.name
 
 
-class TasksToLabels(models.Model):
-    task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
-    label = models.ForeignKey(Labels, on_delete=models.PROTECT)
+class TaskToLabel(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    label = models.ForeignKey(Label, on_delete=models.PROTECT)
 
     def __str__(self):
         return "{}_{}".format(self.task.__str__(), self.label.__str__())

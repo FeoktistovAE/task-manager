@@ -6,20 +6,20 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.db import models
 
-from task_manager.statuses.models import Statuses
+from task_manager.statuses.models import Status
 from task_manager.statuses.forms import StatusForm
 from task_manager.mixins import NoPermissionMixin
 from task_manager import translation
 
 
 class StatusesIndexView(NoPermissionMixin, ListView):
-    model = Statuses
+    model = Status
     template_name = 'statuses/index.html'
     extra_context = {'title': translation.STATUSES_TITLE}
 
 
 class StatusCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
-    model = Statuses
+    model = Status
     form_class = StatusForm
     template_name = 'create.html'
     success_url = reverse_lazy('statuses_index')
@@ -28,7 +28,7 @@ class StatusCreateView(NoPermissionMixin, SuccessMessageMixin, CreateView):
 
 
 class StatusUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
-    model = Statuses
+    model = Status
     form_class = StatusForm
     template_name = 'update.html'
     success_url = reverse_lazy('statuses_index')
@@ -37,7 +37,7 @@ class StatusUpdateView(NoPermissionMixin, SuccessMessageMixin, UpdateView):
 
 
 class StatusDeleteView(NoPermissionMixin, SuccessMessageMixin, DeleteView):
-    model = Statuses
+    model = Status
     template_name = 'delete.html'
     success_url = reverse_lazy('statuses_index')
     extra_context = {'title': translation.STATUS_DELETE_TITLE}

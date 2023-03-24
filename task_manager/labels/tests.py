@@ -1,15 +1,11 @@
 from django.test import TestCase
 from django.test import Client
-from task_manager.labels.models import Labels
+from task_manager.labels.models import Label
 from django.urls import reverse
-import json
 
-from task_manager.users.models import Users
+from task_manager.users.models import User
 from task_manager import translation
-from task_manager import FIXTURE_PATH
-
-
-label_form = json.load(open(FIXTURE_PATH))['label']
+from task_manager.test_form_loader import load_form
 
 
 class LabelsTestCase(TestCase):
@@ -17,9 +13,10 @@ class LabelsTestCase(TestCase):
 
     def setUp(self):
         self.Client = Client()
+        self.label_form = load_form('label')
 
     def test_labels_index_view(self):
-        test_user = Users.objects.first()
+        test_user = User.objects.first()
 
         """Not authorized user tests"""
         response = self.client.get(
@@ -35,7 +32,7 @@ class LabelsTestCase(TestCase):
         self.assertEqual(len(response.context['object_list']), 2)
 
     def test_label_create_view(self):
-        test_user = Users.objects.first()
+        test_user = User.objects.first()
 
         """ Not authorized user tests"""
         response = self.client.get(reverse('label_create'))
@@ -49,24 +46,22 @@ class LabelsTestCase(TestCase):
 
         response = self.client.get(reverse('label_create'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Labels.objects.count(), 2)
+        self.assertEqual(Label.objects.count(), 2)
 
         response = self.client.post(
             reverse('label_create'),
-            label_form,
+            self.label_form,
             follow=True,
         )
-        created_label = Labels.objects.last()
+        created_label = Label.objects.last()
         self.assertRedirects(response, reverse('labels_index'))
-        self.assertEqual(Labels.objects.count(), 3)
+        self.assertEqual(Label.objects.count(), 3)
         self.assertEqual(created_label.name, 'new_name')
         self.assertContains(response, text=translation.LABEL_CREATE)
 
-    def test_label_update_view(self):
-        test_user = Users.objects.first()
-        test_label = Labels.objects.first()
+    def test_label_not_authorized_user_update(self):
+        test_label = Label.objects.first()
 
-        """ Not authorized user tests """
         response = self.client.get(
             reverse('label_edit', kwargs={'pk': test_label.id}),
             follow=True,
@@ -76,20 +71,23 @@ class LabelsTestCase(TestCase):
 
         response = self.client.post(
             reverse('status_edit', kwargs={'pk': test_label.id}),
-            label_form,
+            self.label_form,
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
         self.assertContains(response, translation.NOT_AUTHORIZED_USER)
 
-        """ Authorized user tests """
+    def test_label_authorized_user_update(self):
+        test_user = User.objects.first()
+        test_label = Label.objects.first()
+
         self.client.force_login(test_user)
         response = self.client.get(reverse('label_edit', kwargs={'pk': test_label.id}))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
             reverse('label_edit', kwargs={'pk': test_label.id}),
-            label_form,
+            self.label_form,
             follow=True,
         )
         test_label.refresh_from_db()
@@ -97,11 +95,9 @@ class LabelsTestCase(TestCase):
         self.assertEqual(test_label.name, 'new_name')
         self.assertContains(response, translation.LABEL_UPDATE)
 
-    def test_label_delete_view(self):
-        test_user = Users.objects.first()
-        test_label = Labels.objects.first()
+    def test_label_not_authorized_user_delete(self):
+        test_label = Label.objects.first()
 
-        """" Not authorized user tests """
         response = self.client.get(
             reverse('label_destroy', kwargs={'pk': test_label.id}),
             follow=True,
@@ -116,7 +112,10 @@ class LabelsTestCase(TestCase):
         self.assertRedirects(response, reverse('user_login'))
         self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
-        """ Authorized user tests """
+    def test_label_authorized_user_delete(self):
+        test_user = User.objects.first()
+        test_label = Label.objects.first()
+
         self.client.force_login(test_user)
 
         response = self.client.get(reverse('label_destroy', kwargs={'pk': test_label.id}))
@@ -126,13 +125,13 @@ class LabelsTestCase(TestCase):
             reverse('label_destroy', kwargs={'pk': test_label.id}),
             follow=True,
         )
-        self.assertEqual(Labels.objects.count(), 1)
+        self.assertEqual(Label.objects.count(), 1)
         self.assertRedirects(response, reverse('labels_index'))
         self.assertContains(response, text=translation.LABEL_DELETE)
 
     def test_delete_protected_label(self):
-        test_user = Users.objects.first()
-        protected_label = Labels.objects.last()
+        test_user = User.objects.first()
+        protected_label = Label.objects.last()
 
         self.client.force_login(test_user)
         response = self.client.get(

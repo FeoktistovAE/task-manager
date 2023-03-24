@@ -2,7 +2,7 @@ from django.db import models
 from task_manager import translation
 
 
-class Statuses(models.Model):
+class Status(models.Model):
     name = models.CharField(
         max_length=255,
         unique=True,

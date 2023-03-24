@@ -7,20 +7,20 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db import models
 
-from task_manager.users.models import Users
+from task_manager.users.models import User
 from task_manager.users.forms import UsersForm, UsersLoginForm
 from task_manager.mixins import UserPassesUsernameTestMixin, UsernameCheckMixin
 from task_manager import translation
 
 
 class UsersIndexView(ListView):
-    model = Users
+    model = User
     template_name = 'users/index.html'
     extra_context = {'title': translation.USERS_TITLE}
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
-    model = Users
+    model = User
     form_class = UsersForm
     template_name = 'users/create.html'
     success_url = reverse_lazy('user_login')
@@ -34,10 +34,8 @@ class UserUpdateView(
     UsernameCheckMixin,
     UpdateView
 ):
-    def __init__(self):
-        self.message = translation.NO_RIGHTS_TO_UPDATE_USER
-
-    model = Users
+    no_rights_message = translation.NO_RIGHTS_TO_UPDATE_USER
+    model = User
     form_class = UsersForm
     template_name = 'update.html'
     success_url = reverse_lazy('users_index')
@@ -51,10 +49,8 @@ class UserDeleteView(
     UsernameCheckMixin,
     DeleteView
 ):
-    def __init__(self):
-        self.message = translation.NO_RIGHTS_TO_DELETE_USER
-
-    model = Users
+    no_rights_message = translation.NO_RIGHTS_TO_DELETE_USER
+    model = User
     success_url = reverse_lazy('users_index')
     success_message = translation.USER_DELETE
     template_name = 'delete.html'

@@ -5,9 +5,21 @@
 
 ## Description:
 
-["Task Manager"](python-project-52-production-20b1.up.railway.app) is a task management system.
+"Task Manager" is a task management system.
 It allows you to set tasks, assign performers and change their statuses.
 Registration and authentication are required to work with system.
+
+#### Stack:
+* Python 3
+* Django
+* django-bootstrap4
+* Rollbar
+* Pytest
+* python-dotenv
+* CI/CD (Github actions)
+* Flake8(PEP 8)
+* gunicorn
+* Railway
 
 #### Installation:
 Clone repository:
@@ -23,13 +35,14 @@ Install dependencies via Poetry:
 ```bash
 make install
 ```
-Create '.env' file in the root directory:
+Change the name of '.env.sample' file to '.env':
 ```bash
-touch .env
+mv .env.sample .env
 ```
-Add SECRET_KEY variable to the newly created file:
+Add your django secret key and rollbar token to the .env file:
 ```bash
 SECRET_KEY = 'generated secret key'
+ROLLBAR_TOKEN = 'generated Rollbar token'
 ```
 Make migrations:
 ```bash

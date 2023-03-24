@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='labels',
+            model_name='label',
             name='name',
             field=models.CharField(max_length=255, unique=True, verbose_name='Name'),
         ),

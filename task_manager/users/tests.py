@@ -1,14 +1,10 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
-import json
 
-from task_manager.users.models import Users
+from task_manager.users.models import User
 from task_manager import translation
-from task_manager import FIXTURE_PATH
-
-
-user_form = json.load(open(FIXTURE_PATH))['user']
+from task_manager.test_form_loader import load_form
 
 
 class UsersTestCase(TestCase):
@@ -16,6 +12,7 @@ class UsersTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
+        self.user_form = load_form('user')
 
     def test_users_view(self):
         response = self.client.get(reverse('users_index'))
@@ -28,14 +25,14 @@ class UsersTestCase(TestCase):
 
         response = self.client.post(
             reverse('user_create'),
-            user_form,
+            self.user_form,
             follow=True,
         )
         self.assertRedirects(response, reverse('user_login'))
         self.assertContains(response, text=translation.USER_CREATE)
 
     def test_update_user_success(self):
-        current_user = Users.objects.first()
+        current_user = User.objects.first()
 
         self.client.force_login(current_user)
 
@@ -44,7 +41,7 @@ class UsersTestCase(TestCase):
 
         response = self.client.post(
             reverse('user_edit', kwargs={'pk': current_user.id}),
-            user_form,
+            self.user_form,
             follow=True,
         )
         current_user.refresh_from_db()
@@ -55,7 +52,7 @@ class UsersTestCase(TestCase):
         self.assertContains(response, text=translation.USER_UPDATE)
 
     def test_update_not_authorized_user(self):
-        test_user = Users.objects.last()
+        test_user = User.objects.last()
 
         response = self.client.get(
             reverse('user_edit', kwargs={'pk': test_user.id}),
@@ -72,8 +69,8 @@ class UsersTestCase(TestCase):
         self.assertContains(response, translation.NOT_AUTHORIZED_USER)
 
     def test_update_not_own_user(self):
-        current_user = Users.objects.first()
-        test_user = Users.objects.last()
+        current_user = User.objects.first()
+        test_user = User.objects.last()
 
         self.client.force_login(current_user)
 
@@ -86,17 +83,15 @@ class UsersTestCase(TestCase):
 
         response = self.client.post(
             reverse('user_edit', kwargs={'pk': test_user.id}),
-            user_form,
+            self.user_form,
             follow=True,
         )
         self.assertRedirects(response, reverse('users_index'))
         self.assertContains(response, text=translation.NO_RIGHTS_TO_UPDATE_USER)
 
-    def test_delete_user(self):
-        current_user = Users.objects.first()
-        test_user = Users.objects.last()
+    def test_delete_not_authorized_user(self):
+        test_user = User.objects.last()
 
-        """ Not authorized user tests """
         response = self.client.get(
             reverse('user_destroy', kwargs={'pk': test_user.id}),
             follow=True
@@ -111,7 +106,10 @@ class UsersTestCase(TestCase):
         self.assertRedirects(response, reverse('user_login'))
         self.assertContains(response, text=translation.NOT_AUTHORIZED_USER)
 
-        """ Authorized user tests """
+    def test_delete_authorized_user(self):
+        current_user = User.objects.first()
+        test_user = User.objects.last()
+
         self.client.force_login(current_user)
 
         response = self.client.get(
@@ -136,7 +134,7 @@ class UsersTestCase(TestCase):
         self.assertContains(response, text=translation.USER_DELETE)
 
     def test_delete_protected_user(self):
-        protected_user = Users.objects.get(id=2)
+        protected_user = User.objects.get(id=2)
 
         self.client.force_login(protected_user)
 
